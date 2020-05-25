@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
     if (_model == "") {
       return false;
     }
+    await Tflite.close();
     _model = "";
     return true;
   }
