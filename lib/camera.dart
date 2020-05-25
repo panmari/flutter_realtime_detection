@@ -106,8 +106,8 @@ class _CameraState extends State<Camera> {
   }
 
   @override
-  void dispose() {
-    controller?.dispose();
+  void dispose() async {
+    await controller?.dispose();
     super.dispose();
   }
 
