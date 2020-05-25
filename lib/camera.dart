@@ -26,7 +26,6 @@ class _CameraState extends State<Camera> {
   void initState() {
     super.initState();
 
-    print('Using model: ' + widget.model);
     if (widget.cameras == null || widget.cameras.length < 1) {
       print('No camera is found');
     } else {

@@ -13,6 +13,8 @@ class RecognitionPage extends StatefulWidget {
 
   RecognitionPage(this.cameras);
 
+
+
   @override
   _RecognitionPage createState() => new _RecognitionPage();
 }
@@ -21,12 +23,11 @@ class _RecognitionPage extends State<RecognitionPage> {
   List<dynamic> _recognitions;
   int _imageHeight = 0;
   int _imageWidth = 0;
-  // TODO(panmari): Derive from argument.
-  String _model = yolo;
+  String _model;
 
   @override
   void initState() {
-    super.initState();
+   super.initState();
   }
 
   loadModel() async {
@@ -58,6 +59,12 @@ class _RecognitionPage extends State<RecognitionPage> {
     print('Loaded model ' + res);
   }
 
+  @override
+  void dispose() {
+    Tflite.close();
+    super.dispose();
+  }
+
   setRecognitions(recognitions, imageHeight, imageWidth) {
     setState(() {
       _recognitions = recognitions;
@@ -68,6 +75,8 @@ class _RecognitionPage extends State<RecognitionPage> {
 
   @override
   Widget build(BuildContext context) {
+    _model = ModalRoute.of(context).settings.arguments;
+    loadModel(); // TODO(panmari): This is async, so should be waited for.
     Size screen = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
