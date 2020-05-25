@@ -8,7 +8,6 @@ import 'models.dart';
 typedef void Callback(List<dynamic> list, int h, int w);
 
 class Camera extends StatefulWidget {
-  static const route = '/camera';
   final List<CameraDescription> cameras;
   final Callback setRecognitions;
   final String model;
