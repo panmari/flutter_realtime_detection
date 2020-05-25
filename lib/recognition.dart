@@ -10,7 +10,6 @@ import 'models.dart';
 class RecognitionPage extends StatefulWidget {
   final List<CameraDescription> cameras;
   static const route = '/recognition';
-  final String model = "TODO";
 
   RecognitionPage(this.cameras);
 
@@ -22,7 +21,8 @@ class _RecognitionPage extends State<RecognitionPage> {
   List<dynamic> _recognitions;
   int _imageHeight = 0;
   int _imageWidth = 0;
-  String _model = "";
+  // TODO(panmari): Derive from argument.
+  String _model = yolo;
 
   @override
   void initState() {
@@ -55,14 +55,7 @@ class _RecognitionPage extends State<RecognitionPage> {
             model: "assets/ssd_mobilenet.tflite",
             labels: "assets/ssd_mobilenet.txt");
     }
-    print(res);
-  }
-
-  onSelect(model) {
-    setState(() {
-      _model = model;
-    });
-    loadModel();
+    print('Loaded model ' + res);
   }
 
   setRecognitions(recognitions, imageHeight, imageWidth) {
