@@ -8,6 +8,7 @@ import 'bndbox.dart';
 import 'models.dart';
 
 class HomePage extends StatefulWidget {
+  static const route = '/home';
   final List<CameraDescription> cameras;
 
   HomePage(this.cameras);
@@ -71,50 +72,64 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<bool> _onWillPop() async {
+    if (_model == "") {
+      return false;
+    }
+    _model = "";
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screen = MediaQuery.of(context).size;
-    return Scaffold(
-      body: _model == ""
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: const Text(ssd),
-                    onPressed: () => onSelect(ssd),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter realtime detection'),
+        ),
+        body: _model == ""
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: const Text(ssd),
+                      onPressed: () => onSelect(ssd),
+                    ),
+                    RaisedButton(
+                      child: const Text(yolo),
+                      onPressed: () => onSelect(yolo),
+                    ),
+                    RaisedButton(
+                      child: const Text(mobilenet),
+                      onPressed: () => onSelect(mobilenet),
+                    ),
+                    RaisedButton(
+                      child: const Text(posenet),
+                      onPressed: () => onSelect(posenet),
+                    ),
+                  ],
+                ),
+              )
+            : Stack(
+                children: [
+                  Camera(
+                    widget.cameras,
+                    _model,
+                    setRecognitions,
                   ),
-                  RaisedButton(
-                    child: const Text(yolo),
-                    onPressed: () => onSelect(yolo),
-                  ),
-                  RaisedButton(
-                    child: const Text(mobilenet),
-                    onPressed: () => onSelect(mobilenet),
-                  ),
-                  RaisedButton(
-                    child: const Text(posenet),
-                    onPressed: () => onSelect(posenet),
-                  ),
+                  BndBox(
+                      _recognitions == null ? [] : _recognitions,
+                      math.max(_imageHeight, _imageWidth),
+                      math.min(_imageHeight, _imageWidth),
+                      screen.height,
+                      screen.width,
+                      _model),
                 ],
               ),
-            )
-          : Stack(
-              children: [
-                Camera(
-                  widget.cameras,
-                  _model,
-                  setRecognitions,
-                ),
-                BndBox(
-                    _recognitions == null ? [] : _recognitions,
-                    math.max(_imageHeight, _imageWidth),
-                    math.min(_imageHeight, _imageWidth),
-                    screen.height,
-                    screen.width,
-                    _model),
-              ],
-            ),
+      ),
     );
   }
 }

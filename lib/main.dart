@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'home.dart';
+import 'camera.dart';
 
 List<CameraDescription> cameras;
 
@@ -20,7 +21,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'tflite real-time detection',
+      initialRoute: HomePage.route,
+      routes: {
+        HomePage.route: (context) => HomePage(cameras),
+      },
       theme: ThemeData(
+        primarySwatch: Colors.red,
         brightness: Brightness.dark,
       ),
       home: HomePage(cameras),

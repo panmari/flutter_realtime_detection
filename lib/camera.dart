@@ -8,6 +8,7 @@ import 'models.dart';
 typedef void Callback(List<dynamic> list, int h, int w);
 
 class Camera extends StatefulWidget {
+  static const route = '/camera';
   final List<CameraDescription> cameras;
   final Callback setRecognitions;
   final String model;
@@ -32,6 +33,7 @@ class _CameraState extends State<Camera> {
       controller = new CameraController(
         widget.cameras[0],
         ResolutionPreset.high,
+        enableAudio: false,
       );
       controller.initialize().then((_) {
         if (!mounted) {
