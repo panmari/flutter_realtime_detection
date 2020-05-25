@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'camera.dart';
@@ -12,8 +13,6 @@ class RecognitionPage extends StatefulWidget {
   static const route = '/recognition';
 
   RecognitionPage(this.cameras);
-
-
 
   @override
   _RecognitionPage createState() => new _RecognitionPage();
@@ -27,7 +26,7 @@ class _RecognitionPage extends State<RecognitionPage> {
 
   @override
   void initState() {
-   super.initState();
+    super.initState();
   }
 
   loadModel() async {
@@ -37,24 +36,31 @@ class _RecognitionPage extends State<RecognitionPage> {
         res = await Tflite.loadModel(
           model: "assets/yolov2_tiny.tflite",
           labels: "assets/yolov2_tiny.txt",
+          numThreads: Platform.numberOfProcessors,
         );
         break;
 
       case mobilenet:
         res = await Tflite.loadModel(
-            model: "assets/mobilenet_v1_1.0_224.tflite",
-            labels: "assets/mobilenet_v1_1.0_224.txt");
+          model: "assets/mobilenet_v1_1.0_224.tflite",
+          labels: "assets/mobilenet_v1_1.0_224.txt",
+          numThreads: Platform.numberOfProcessors,
+        );
         break;
 
       case posenet:
         res = await Tflite.loadModel(
-            model: "assets/posenet_mv1_075_float_from_checkpoints.tflite");
+          model: "assets/posenet_mv1_075_float_from_checkpoints.tflite",
+          numThreads: Platform.numberOfProcessors,
+        );
         break;
 
       default:
         res = await Tflite.loadModel(
-            model: "assets/ssd_mobilenet.tflite",
-            labels: "assets/ssd_mobilenet.txt");
+          model: "assets/ssd_mobilenet.tflite",
+          labels: "assets/ssd_mobilenet.txt",
+          numThreads: Platform.numberOfProcessors,
+        );
     }
     print('Loaded model ' + res);
   }
@@ -80,7 +86,7 @@ class _RecognitionPage extends State<RecognitionPage> {
     Size screen = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter realtime detection'),
+        title: Text('Detection using ' + _model),
       ),
       body: Stack(
         children: [
