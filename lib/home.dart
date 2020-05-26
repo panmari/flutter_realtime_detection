@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
               child: Text(model),
               onPressed: () =>
                   Navigator.pushNamed(context, RecognitionPage.route, arguments: model),
-            )
+            );
   }
 
   @override
