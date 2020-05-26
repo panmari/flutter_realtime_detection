@@ -18,6 +18,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  Widget _buildModelSelectButton(String model) {
+    return RaisedButton(
+              child: Text(model),
+              onPressed: () =>
+                  Navigator.pushNamed(context, RecognitionPage.route, arguments: model),
+            )
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,26 +36,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              child: const Text(ssd),
-              onPressed: () =>
-                  Navigator.pushNamed(context, RecognitionPage.route, arguments: ssd),
-            ),
-            RaisedButton(
-              child: const Text(yolo),
-              onPressed: () =>
-                  Navigator.pushNamed(context, RecognitionPage.route, arguments: yolo),
-            ),
-            RaisedButton(
-              child: const Text(mobilenet),
-              onPressed: () =>
-                  Navigator.pushNamed(context, RecognitionPage.route, arguments: mobilenet),
-            ),
-            RaisedButton(
-              child: const Text(posenet),
-              onPressed: () =>
-                  Navigator.pushNamed(context, RecognitionPage.route, arguments: posenet),
-            ),
+            _buildModelSelectButton(ssd),
+            _buildModelSelectButton(yolo),
+            _buildModelSelectButton(mobilenet),
+            _buildModelSelectButton(posenet),
           ],
         ),
       ),
