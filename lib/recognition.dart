@@ -26,6 +26,9 @@ class _RecognitionPage extends State<RecognitionPage> {
 
   @override
   void initState() {
+    Tflite.close();
+    _model = ModalRoute.of(context).settings.arguments;
+    loadModel(); // TODO(panmari): This is async, so should be waited for.
     super.initState();
   }
 
@@ -65,12 +68,6 @@ class _RecognitionPage extends State<RecognitionPage> {
     print('Loaded model ' + res);
   }
 
-  @override
-  void dispose() {
-    Tflite.close();
-    super.dispose();
-  }
-
   setRecognitions(recognitions, imageHeight, imageWidth) {
     setState(() {
       _recognitions = recognitions;
@@ -81,8 +78,6 @@ class _RecognitionPage extends State<RecognitionPage> {
 
   @override
   Widget build(BuildContext context) {
-    _model = ModalRoute.of(context).settings.arguments;
-    loadModel(); // TODO(panmari): This is async, so should be waited for.
     Size screen = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(

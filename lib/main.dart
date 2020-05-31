@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_realtime_detection/recognition.dart';
+
+import 'catview.dart';
 import 'home.dart';
+import 'recognition.dart';
 
 List<CameraDescription> cameras;
 
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: HomePage.route,
       routes: {
         HomePage.route: (context) => HomePage(),
-        RecognitionPage.route: (context) => RecognitionPage(cameras)
+        RecognitionPage.route: (context) => RecognitionPage(cameras),
+        CatViewPage.route: (context) => CatViewPage(cameras),
       },
       theme: ThemeData(
         primarySwatch: Colors.red,

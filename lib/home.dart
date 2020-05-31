@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_realtime_detection/catview.dart';
 
 import 'recognition.dart';
 import 'models.dart';
@@ -40,6 +41,11 @@ class _HomePageState extends State<HomePage> {
             _buildModelSelectButton(yolo),
             _buildModelSelectButton(mobilenet),
             _buildModelSelectButton(posenet),
+            RaisedButton(
+              child: Text("catview"),
+              onPressed: () =>
+                  Navigator.pushNamed(context, CatViewPage.route),
+            ),
           ],
         ),
       ),
