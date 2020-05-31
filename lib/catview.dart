@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -66,11 +68,30 @@ class _CatViewState extends State<CatViewPage> with WidgetsBindingObserver {
     if (controller == null || !controller.value.isInitialized) {
       return Container(child: Center(child: Text("Camera not available")));
     }
-
+    // Use a smarter transformation, e.g. from
+    // https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
+    const ColorFilter catmatrix = ColorFilter.matrix(<double>[
+      0,  .5,  .5,  0,  0,
+      0,  1,  0,  0,  0,
+      0,  0,  1,  0,  0,
+      0,  0,  0,  1,  0,
+    ]);
     return AspectRatio(
       aspectRatio: controller.value.aspectRatio,
-      // TODO(panmari): use controller.textureId_ and display modified view.
-      child: CameraPreview(controller),
+      child: Stack(
+        children: [
+          ColorFiltered(
+            colorFilter: catmatrix,
+            child: CameraPreview(controller),
+          ),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
