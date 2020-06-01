@@ -44,15 +44,17 @@ void main() {
   // For ColorFilter, the matrix needs to be row-major.
   // Taking the transpose here just does that.
   T.transpose();
+  var output = "";
   for (var i = 0; i < 4*5; i++) {
     var row = i ~/ 5;
     var col = i % 5;
     if (col == 4) {
-      print("0.0,");
+      output += "0.0,\n";
     } else {
       var idx = i - row;
       var v = T.storage[idx];
-      print("$v,");
+      output += "$v, ";
     }
   }
+  print(output);
 }
