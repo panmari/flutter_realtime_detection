@@ -162,26 +162,30 @@ class _CatViewState extends State<CatViewPage> with WidgetsBindingObserver {
     ]);
     return Stack(
       children: [
-        ColorFiltered(
-          colorFilter: ColorFilter.linearToSrgbGamma(),
-          child: ColorFiltered(
-            colorFilter: catmatrix4,
+        Center(
+          child: AspectRatio(
+            aspectRatio: controller.value.aspectRatio,
             child: ColorFiltered(
-              colorFilter: ColorFilter.srgbToLinearGamma(),
-              child: CameraPreview(controller),
+              colorFilter: ColorFilter.linearToSrgbGamma(),
+              child: ColorFiltered(
+                colorFilter: catmatrix4,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.srgbToLinearGamma(),
+                  child: CameraPreview(controller),
+                ),
+              ),
             ),
           ),
         ),
-        ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-            child: Container(color: Colors.transparent)
-          ),
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+          child: Container(color: Colors.transparent),
         ),
         // Small "real view" pane in the top left.
         Container(
-          width: controller.value.previewSize.width / 5,
-          height: controller.value.previewSize.height / 5,
+          // TODO(panmari): This only looks correct when switching height/width?
+          width: controller.value.previewSize.height / 4,
+          height: controller.value.previewSize.width / 4,
           child: CameraPreview(controller),
         ),
       ],
