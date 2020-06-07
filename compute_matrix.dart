@@ -6,41 +6,30 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_realtime_detection/main.dart';
 
 void main() {
-  // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-  //   // Build our app and trigger a frame.
-  //   await tester.pumpWidget(MyApp());
-
-  //   expect(find.text('detection'), findsOneWidget);
-  //   expect(find.text('1'), findsNothing);
-  // });
-
+  // Computes color filter matrix. Can not be done at runtime as color filter needs to be const.
+  // https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
+  // See also https://github.com/hx2A/ColorBlindness/blob/master/src/colorblind/ColorUtilities.java
   // Note that the syntax is column-major order.
-  var T = Matrix4(
+  var rgb2lms = Matrix4(
     0.31399022, 0.15537241, 0.01775239, 0,
     0.63951294, 0.75789446, 0.10944209, 0, 
     0.04649755, 0.08670142, 0.87256922, 0,
-    0, 0, 0, 1);
-  var S = Matrix4(
+    0, 0, 0, 1).transposed();
+  var protanopiaSim = Matrix4(
     0, 0, 0, 0,
     1.05118294, 1, 0, 0,
     -0.05116099, 0, 1, 0,
-    0, 0, 0, 1);
-  var T_inv = Matrix4(
+    0, 0, 0, 1).transposed();
+  var lms2rgb = Matrix4(
     5.47221206, -1.1252419, 0.02980165, 0,
     -4.6419601, 2.29317094, -0.19318073, 0,
     0.16963708, -0.1678952, 1.16364789, 0,
-    0, 0, 0, 1);
+    0, 0, 0, 1).transposed();
 
 
-  // Use a smarter transformation, e.g. from
-  // https://ixora.io/projects/colorblindness/color-blindness-simulation-research/
-  T.multiply(S);
-  T.multiply(T_inv);
+  var T = rgb2lms.multiplied(protanopiaSim).multiplied(lms2rgb);
   // For ColorFilter, the matrix needs to be row-major.
   // Taking the transpose here just does that.
   T.transpose();

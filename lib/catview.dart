@@ -72,46 +72,16 @@ class _CatViewState extends State<CatViewPage> with WidgetsBindingObserver {
       return Container(child: Center(child: Text("Camera not available")));
     }
     const ColorFilter catmatrix = ColorFilter.matrix([
-      -1.0900984368899098,
-      2.2175199905891096,
-      -0.12737296039724047,
-      0.0,
-      0.0,
-      -1.0342475886571665,
-      2.0972998489516126,
-      -0.06302821637306061,
-      0.0,
-      0.0,
-      -0.1181700393438417,
-      0.12537419873513828,
-      0.9927985764733144,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      1.0,
-      0.0,
-      // 2.9474290199816493,
-      // -1.6519622609956397,
-      // 0.060369774527889754,
-      // 0.0,
-      // 0.0,
-      // 3.485129226894302,
-      // -1.9563603638919844,
-      // 0.10803805848624833,
-      // 0.0,
-      // 0.0,
-      // 0.28811068673581236,
-      // -0.2443981226866301,
-      // 1.0089313457675153,
-      // 0.0,
-      // 0.0,
-      // 0.0,
-      // 0.0,
-      // 0.0,
-      // 1.0,
-      // 0.0
+      -1.0900984368899098, 2.2175199905891096, -0.12737296039724047, 0.0, 0.0,
+      -1.0342475886571665, 2.0972998489516126, -0.06302821637306061, 0.0, 0.0,
+      -0.1181700393438417, 0.12537419873513828, 0.9927985764733144, 0.0, 0.0,
+      0.0, 0.0, 0.0, 1.0, 0.0,
+    ]);
+    const ColorFilter catmatrix2 = ColorFilter.matrix([
+      0.1705569959951633, 0.17055699434260266, -0.004517141844953037, 0.0, 0.0,
+      0.8294430128562018, 0.8294430047054198, 0.00451713687057316, 0.0, 0.0,
+      7.65392266233178e-9, 3.3440955282681983e-9, 0.9999999917887479, 0.0, 0.0,
+      0.0, 0.0, 0.0, 1.0, 0.0,
     ]);
     return AspectRatio(
       aspectRatio: controller.value.aspectRatio,
@@ -120,19 +90,19 @@ class _CatViewState extends State<CatViewPage> with WidgetsBindingObserver {
           ColorFiltered(
             colorFilter: ColorFilter.linearToSrgbGamma(),
             child: ColorFiltered(
-              colorFilter: catmatrix,
+              colorFilter: catmatrix2,
               child: ColorFiltered(
                 colorFilter: ColorFilter.srgbToLinearGamma(),
                 child: CameraPreview(controller),
               ),
             ),
           ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
+          // BackdropFilter(
+          //   filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+          //   child: Container(
+          //     color: Colors.transparent,
+          //   ),
+          // ),
         ],
       ),
     );
