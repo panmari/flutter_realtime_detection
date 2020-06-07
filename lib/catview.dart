@@ -83,28 +83,37 @@ class _CatViewState extends State<CatViewPage> with WidgetsBindingObserver {
       7.65392266233178e-9, 3.3440955282681983e-9, 0.9999999917887479, 0.0, 0.0,
       0.0, 0.0, 0.0, 1.0, 0.0,
     ]);
-    return AspectRatio(
-      aspectRatio: controller.value.aspectRatio,
-      child: Stack(
-        children: [
-          ColorFiltered(
-            colorFilter: ColorFilter.linearToSrgbGamma(),
+    const ColorFilter catmatrix3 = ColorFilter.matrix([
+      0.17055699599516327, 0.8294430128562021, 7.653922634576205e-9, 0.0, 0.0,
+      0.17055699434260263, 0.8294430047054198, 3.3440955282681983e-9, 0.0, 0.0,
+      -0.00451714184495303, 0.004517136870573174, 0.9999999917887477, 0.0, 0.0,
+      0.0, 0.0, 0.0, 1.0, 0.0,
+    ]);
+    const ColorFilter catmatrix4 = ColorFilter.matrix([
+      0.112076140842, 0.8852192818779999, -0.0002116831360000071, 0.0, 0.0,
+      0.11265160832400001, 0.889751659516, 0.00014613260800000472, 0.0, 0.0,
+      0.003870034247999997, -0.0053173825680000175, 0.9999311044160001, 0.0, 0.0,
+      0.0, 0.0, 0.0, 1.0, 0.0,
+    ]);
+    return Stack(
+      children: [
+        ColorFiltered(
+          colorFilter: ColorFilter.linearToSrgbGamma(),
+          child: ColorFiltered(
+            colorFilter: catmatrix4,
             child: ColorFiltered(
-              colorFilter: catmatrix2,
-              child: ColorFiltered(
-                colorFilter: ColorFilter.srgbToLinearGamma(),
-                child: CameraPreview(controller),
-              ),
+              colorFilter: ColorFilter.srgbToLinearGamma(),
+              child: CameraPreview(controller),
             ),
           ),
-          // BackdropFilter(
-          //   filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          //   child: Container(
-          //     color: Colors.transparent,
-          //   ),
-          // ),
-        ],
-      ),
+        ),
+        // BackdropFilter(
+        //   filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        //   child: Container(
+        //     color: Colors.transparent,
+        //   ),
+        // ),
+      ],
     );
   }
 }
